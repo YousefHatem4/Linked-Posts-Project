@@ -15,15 +15,13 @@ import { setError, setLoading, setToken } from "../_redux/authSlice";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-  let isLoading = useSelector((store: State) => store.authReducer.isLoading);
-
-  let dispatch = useDispatch();
-
-  let router = useRouter(); //! you must choose userouter of navigation not of router | its like Link or useNavigate
+  const isLoading = useSelector((store: State) => store.authReducer.isLoading);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   async function login(values: { email: string; password: string }) {
     dispatch(setLoading());
-    let response = await fetch(
+    const response = await fetch(
       `https://linked-posts.routemisr.com/users/signin`,
       {
         method: "POST",
@@ -34,16 +32,16 @@ export default function Login() {
       }
     );
 
-    let data = await response.json();
+    const data = await response.json();
     if (response.ok) {
-      router.push("/"); //! go to home page
+      router.push("/");
       dispatch(setToken(data));
     } else {
       dispatch(setError(data.error));
     }
   }
 
-  let { handleChange, handleSubmit, values } = useFormik({
+  const { handleChange, handleSubmit, values } = useFormik({
     initialValues: {
       email: "",
       password: "",

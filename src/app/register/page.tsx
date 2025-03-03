@@ -1,24 +1,15 @@
 "use client";
 
-import {
-  Button,
-  Paper,
-  TextField,
-  Typography,
-  Box,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-} from "@mui/material";
+import { Button, Paper, TextField, Typography, Box } from "@mui/material";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { setError, setToken } from "../_redux/authSlice";
 import { useDispatch } from "react-redux";
 
 export default function Register() {
-  let dispatch = useDispatch(); // to send action on it because of redux logic
-  let router = useRouter();
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   async function register(values: {
     name: string;
     email: string;
@@ -27,7 +18,7 @@ export default function Register() {
     dateOfBirth: string;
     gender: string;
   }) {
-    let response = await fetch(
+    const response = await fetch(
       `https://linked-posts.routemisr.com/users/signup`,
       {
         method: "POST",
@@ -37,16 +28,16 @@ export default function Register() {
         },
       }
     );
-    let data = await response.json();
+    const data = await response.json();
     if (response.ok) {
-      router.push("/login"); //! go to login page
+      router.push("/login");
       dispatch(setToken(data));
     } else {
       dispatch(setError(data.error));
     }
   }
 
-  let { handleChange, handleSubmit, values } = useFormik({
+  const { handleChange, handleSubmit, values } = useFormik({
     initialValues: {
       name: "",
       email: "",

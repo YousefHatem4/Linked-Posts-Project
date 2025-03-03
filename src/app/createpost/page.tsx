@@ -1,46 +1,31 @@
 "use client";
 
-import {
-  Button,
-  Paper,
-  TextField,
-  Typography,
-  Box,
-  CircularProgress,
-} from "@mui/material";
-import { useFormik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import { State } from "../_redux/store";
-import { setError, setLoading, setToken } from "../_redux/authSlice";
+import { Button, Paper, TextField, Typography, Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 import toast from "react-hot-toast";
 
-export default function createPost() {
+export default function CreatePost() {
+  const router = useRouter();
 
-  let router = useRouter(); //! you must choose userouter of navigation not of router | its like Link or useNavigate
-  // form event is in react by default
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    let form = e.target as HTMLFormElement;
-    let formData = new FormData();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData();
     formData.append("body", form.body.value);
     formData.append("image", form.image.files[0]);
 
-    let response = await fetch(`https://linked-posts.routemisr.com/posts`, {
+    const response = await fetch(`https://linked-posts.routemisr.com/posts`, {
       method: "POST",
       body: formData,
       headers: {
-        'token': `${localStorage.getItem("token")}`,
+        token: `${localStorage.getItem("token")}`,
       },
     });
-      let data = await response.json();
-      console.log(data);
-      toast.success(data.message);
-      router.push('/profile');
-      
-    //   console.log(form.body.value); // the body value
-    //   console.log(form.image.files[0]); // the image value
+    const data = await response.json();
+    console.log(data);
+    toast.success(data.message);
+    router.push("/profile");
   }
 
   return (
@@ -62,7 +47,7 @@ export default function createPost() {
             flexDirection: "column",
             gap: "1.5rem",
           }}
-          onSubmit={(e) => handleSubmit(e)}
+          onSubmit={handleSubmit}
         >
           <TextField
             name="body"
