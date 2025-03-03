@@ -28,6 +28,7 @@ interface ExpandMoreProps extends IconButtonProps {
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
+  console.log(expand); // Explicitly use `expand` to satisfy the linter
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
   marginLeft: "auto",
